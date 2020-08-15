@@ -5,7 +5,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 @RestController
@@ -28,19 +32,25 @@ public class RedemptionPlanController {
         double annuity = calculateAnnuity(zinsNumeric, betragNumeric, anfangstilgungNumeric);
         double restschuld = betragNumeric;
 
+        ArrayList<double[]> monthlyPayments = new ArrayList<>();
+        monthlyPayments.add(new double[]{restschuld, 0, 0}); // before the first payment is due
         int month = 1;
-        while(restschuld > 0) {
-            System.out.println("Monat:" + month);
-            System.out.println("Restschuld: " + restschuld);
+        // calculate 'Rate' ~ that is annuity/12.0 rounded
+        while(restschuld > annuity/12.0) {
             double zinszahlung = calculateZinszahlung(restschuld, zinsNumeric);
-            System.out.println("Zinsanteil");
+            // TODO: Use this logic in monthlyPayment-List?
+/*            System.out.println("Zinsanteil");
             System.out.println(zinszahlung);
-            System.out.println("("+ zinszahlung / Math.min(annuity/12, restschuld) + "%)");
+            System.out.println("("+ zinszahlung / Math.min(annuity/12.0, restschuld) + "%)");
             System.out.println("Tilgungsanteil");
-            System.out.println(Math.min(annuity/12.0, restschuld) - zinszahlung);
+            System.out.println(Math.min(annuity/12.0, restschuld) - zinszahlung);*/
             restschuld = calculateRestschuld(restschuld, annuity, zinsNumeric);
             month++;
+            monthlyPayments.add(new double[]{
+                    restschuld, zinszahlung, Math.min(annuity / 12.0, restschuld) - zinszahlung
+            });
         }
+        monthlyPayments.forEach(monthlyData -> System.out.println(Arrays.toString(monthlyData)));
 
         return numberFormat.format(annuity/12.0);
     }
@@ -59,7 +69,11 @@ public class RedemptionPlanController {
     }
 
     public double calculateRestschuld(double amount, double annuity, double zinssatz) {
-        return amount * (1 + zinssatz/1200.0) - annuity/12.0;
+        // Check if all terms should be rounded in calculation?
+        // Yep but instead before passing the param, new param is annuity/12.0 rounded to two decimals
+        BigDecimal preciseResult = new BigDecimal(amount * (1 + zinssatz/1200.0) - annuity/12.0);
+        BigDecimal roundResult = preciseResult.setScale(2, RoundingMode.HALF_UP);
+        return roundResult.doubleValue();
     }
 
 }

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -27,6 +26,22 @@ public class RedemptionPlanController {
 
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMAN);
         double annuity = calculateAnnuity(zinsNumeric, betragNumeric, anfangstilgungNumeric);
+        double restschuld = betragNumeric;
+
+        int month = 1;
+        while(restschuld > 0) {
+            System.out.println("Monat:" + month);
+            System.out.println("Restschuld: " + restschuld);
+            double zinszahlung = calculateZinszahlung(restschuld, zinsNumeric);
+            System.out.println("Zinsanteil");
+            System.out.println(zinszahlung);
+            System.out.println("("+ zinszahlung / Math.min(annuity/12, restschuld) + "%)");
+            System.out.println("Tilgungsanteil");
+            System.out.println(Math.min(annuity/12.0, restschuld) - zinszahlung);
+            restschuld = calculateRestschuld(restschuld, annuity, zinsNumeric);
+            month++;
+        }
+
         return numberFormat.format(annuity/12.0);
     }
 
@@ -37,6 +52,14 @@ public class RedemptionPlanController {
 
     public double calculateAnnuity(double zinssatz, double fund, double tilgung) {
         return fund * (tilgung/100.0 + zinssatz/100.0);
+    }
+
+    public double calculateZinszahlung(double amount, double zinssatz){
+        return amount * zinssatz/1200.0;
+    }
+
+    public double calculateRestschuld(double amount, double annuity, double zinssatz) {
+        return amount * (1 + zinssatz/1200.0) - annuity/12.0;
     }
 
 }

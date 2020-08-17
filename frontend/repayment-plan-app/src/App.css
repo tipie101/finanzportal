@@ -28,27 +28,6 @@
   color: #61dafb;
 }
 
-/* 
-Setting a root font-size of 10px is the most common scenario
-when I see people using REMs 
-*/
-.card-body {
-  flex: 1 1 auto;
-  padding: 1.25rem;
-  margin: 1.25rem;
-  background-color: cornflowerblue;
-  border-radius: 0.25rem; 
-}
-
-.card-body .form-param {
-  margin: 0.5rem;
-  padding: 1rem;
-}
-
-.card-body .form-param input {
-  width: 70%;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

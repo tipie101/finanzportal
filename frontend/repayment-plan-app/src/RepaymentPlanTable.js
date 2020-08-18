@@ -36,7 +36,7 @@ class RepaymentPlanTable extends Component {
 
     render() {
         return (
-            <table>
+            <table class="table table-hover">
                 <thead>
                     {this.getColumnNames()}
                 </thead>

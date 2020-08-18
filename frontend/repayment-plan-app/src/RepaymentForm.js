@@ -114,7 +114,7 @@ class RepaymentForm extends React.Component {
     render() {
       return (
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-4 col-lg-6">
                 <div class="card-body">
                     <form>
                         <div class="form-param">
@@ -134,12 +134,12 @@ class RepaymentForm extends React.Component {
                 </div>
                 <div class="card-body monthly-rate" style={{ visibility: this.state.monthlyRate == 0 ? 'hidden' : 'visible'}}>
                     <p>
-                        Der kalkulierte Tilgungsplan ergibt eine monatliche Rate von {this.state.monthlyRate} &euro;
+                        Monatsrate von {this.state.monthlyRate} &euro;
                     </p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <RepaymentPlanTable rate={this.state.monthlyRate} data={this.state.repaymentPlan} columnNames={['Restschuld', 'Zinsanteil', 'Tilgungsanteil', 'Zinsanteil %']}/>
+            <div class="col-md-8 col-lg-6">
+                <RepaymentPlanTable rate={this.state.monthlyRate} data={this.state.repaymentPlan} columnNames={['Restschuld', 'Zinsen', 'Tilgung', 'Zinsanteil %']}/>
             </div>
 
         </div>

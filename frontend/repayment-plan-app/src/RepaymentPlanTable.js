@@ -1,32 +1,31 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './RepaymentPlanTable.css';
 
 class RepaymentPlanTable extends Component {
    constructor(props) {
         super(props);
-        this.state = {
-            header: '',
-            data: [],
-            columnNames: ['Restschuld', 'Zinsanteil', 'Tilgungsanteil', 'Zinsanteil %']
-        }
-        this.getRows = this.getRows.bind(this);
+        this.getTableBody = this.getTableBody.bind(this);
         this.getColumnNames = this.getColumnNames.bind(this);
     }
 
-    getRows() {
+    getTableBody() {
+        console.log(this.props.data);
         return (
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-            </tr>
+            <tbody>
+                {this.props.data.map(row => (
+                    <tr>
+                        {row.map(value => <td>{value}</td>)}                
+                    </tr>
+                ))}
+            </tbody>
         );
     }
 
     getColumnNames() {
+        console.log(this.props.columnNames);
         return (
             <tr>
-                {this.state.columnNames.map(columnName => (
+                {this.props.columnNames.map(columnName => (
                     <th>
                         {columnName}
                     </th>
@@ -41,9 +40,7 @@ class RepaymentPlanTable extends Component {
                 <thead>
                     {this.getColumnNames()}
                 </thead>
-                <tbody>
-                    {this.getRows()}
-                </tbody>
+                    {this.getTableBody()}
             </table>
         );
     }

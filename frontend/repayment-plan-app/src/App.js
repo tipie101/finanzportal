@@ -9,25 +9,13 @@ function App() {
     <div className="App">
       <div class="container">
         <div class="row">
+          {/* HEADER */}
           <h2>
             .
           </h2>
         </div>
-
         <div class="row">
-            <div class="col-md-8">
-
-              <div class="card-body">
-                <RepaymentForm/>
-              </div> 
-
-            </div>
-            <div class="col-dm-4">
-                <p>
-                    Berechnung
-                </p>
-                <RepaymentPlanTable/>
-            </div>
+          <RepaymentForm/>
         </div>
       </div>
     </div>

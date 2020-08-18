@@ -30,8 +30,6 @@ public class RedemptionPlanController {
         double betragNumeric = convertGermanNumber(betrag);
         double anfangstilgungNumeric = convertGermanNumber(anfangstilgung);
         double zinsNumeric = convertGermanNumber(zinssatz);
-
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.GERMAN);
         double annuity = calculateAnnuity(zinsNumeric, betragNumeric, anfangstilgungNumeric);
         double restschuld = betragNumeric;
 
@@ -50,16 +48,18 @@ public class RedemptionPlanController {
             restschuld = calculateRestschuld(restschuld, annuity, zinsNumeric);
             month++;
             monthlyPayments.add(new double[]{
-                    restschuld, zinszahlung, Math.min(annuity / 12.0, restschuld) - zinszahlung,
+                    restschuld,
+                    roundNumber(zinszahlung, 2),
+                    roundNumber(Math.min(annuity / 12.0, restschuld) - zinszahlung, 2),
                     // % der zinszahlung
-                    100.0 * (zinszahlung / Math.min(annuity/12.0, restschuld))
+                    roundNumber(100.0 * (zinszahlung / Math.min(annuity/12.0, restschuld)), 4)
             });
         }
         monthlyPayments.forEach(monthlyData -> System.out.println(Arrays.toString(monthlyData)));
 
         JSONObject json = new JSONObject();
-        json.put("rate",numberFormat.format(annuity/12.0));
-        json.put("tilgunsplan", monthlyPayments);
+        json.put("rate", roundNumber(annuity/12.0, 2));
+        json.put("tilgungsplan", monthlyPayments);
         return json;
     }
 
@@ -79,8 +79,12 @@ public class RedemptionPlanController {
     public double calculateRestschuld(double amount, double annuity, double zinssatz) {
         // Check if all terms should be rounded in calculation?
         // Yep but instead before passing the param, new param is annuity/12.0 rounded to two decimals
-        BigDecimal preciseResult = new BigDecimal(amount * (1 + zinssatz/1200.0) - annuity/12.0);
-        BigDecimal roundResult = preciseResult.setScale(2, RoundingMode.HALF_UP);
+        return roundNumber(amount * (1 + zinssatz/1200.0) - annuity/12.0, 2);
+    }
+
+    public double roundNumber(double number, int decimals){
+        BigDecimal preciseResult = new BigDecimal(number);
+        BigDecimal roundResult = preciseResult.setScale(decimals, RoundingMode.HALF_UP);
         return roundResult.doubleValue();
     }
 

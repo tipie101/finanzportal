@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import RepaymentForm from './RepaymentForm';
+import RepaymentPlanTable from './RepaymentPlanTable';
 
 function App() {
   return (
@@ -20,17 +21,12 @@ function App() {
                 <RepaymentForm/>
               </div> 
 
-              {/* <div class="card-body">
-                <button>
-                  Berechnen
-                </button>
-              </div> */}
-
             </div>
             <div class="col-dm-4">
                 <p>
                     Berechnung
                 </p>
+                <RepaymentPlanTable/>
             </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 package com.finanzportal.redemptionplan;
 
+import org.json.simple.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +17,9 @@ import java.util.Locale;
 @RestController
 public class RedemptionPlanController {
 
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "/redemption_plan")
-    public String calculate(
+    public JSONObject calculate(
         @PathParam("betrag") String betrag,
         @PathParam("zinssatz") String zinssatz,
         // TODO: What is 'anfangstilgung'? maybe 'tilgungssatz'?
@@ -47,12 +50,17 @@ public class RedemptionPlanController {
             restschuld = calculateRestschuld(restschuld, annuity, zinsNumeric);
             month++;
             monthlyPayments.add(new double[]{
-                    restschuld, zinszahlung, Math.min(annuity / 12.0, restschuld) - zinszahlung
+                    restschuld, zinszahlung, Math.min(annuity / 12.0, restschuld) - zinszahlung,
+                    // % der zinszahlung
+                    100.0 * (zinszahlung / Math.min(annuity/12.0, restschuld))
             });
         }
         monthlyPayments.forEach(monthlyData -> System.out.println(Arrays.toString(monthlyData)));
 
-        return numberFormat.format(annuity/12.0);
+        JSONObject json = new JSONObject();
+        json.put("rate",numberFormat.format(annuity/12.0));
+        json.put("tilgunsplan", monthlyPayments);
+        return json;
     }
 
     public double convertGermanNumber(String number) {

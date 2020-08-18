@@ -26,7 +26,9 @@ class RepaymentForm extends React.Component {
       this.state = {
           betrag: '',
           zins: '',
-          satz: ''
+          satz: '',
+          monthlyRate: 0,
+          repaymentPlan: [],
         };
       this.setBetrag = this.setBetrag.bind(this);
       this.setZinssatz = this.setZinssatz.bind(this);
@@ -34,9 +36,7 @@ class RepaymentForm extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
     }
   
-    // TODO: Setters need value checks and Defaults
     setZinssatz(event) {
-        // TODO isNan etc. into one method
         if (isValidPercentage(event.target.value)){
             this.setState({
                 zins: event.target.value
@@ -46,7 +46,6 @@ class RepaymentForm extends React.Component {
     }
 
     setBetrag(event) { 
-        // TODO: prevent more than 2 numbers behind ','/'.'
         if (isValidFund(event.target.value)){
             this.setState({
                 betrag: event.target.value
@@ -65,10 +64,20 @@ class RepaymentForm extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log('Submitted: '); 
-        console.log(this.state.betrag);
-        console.log(this.state.zins);
-        console.log(this.state.satz);
+        // CORS header ‘Access-Control-Allow-Origin’ missing
+        // https://stackoverflow.com/questions/45975135/access-control-origin-header-error-using-axios-in-react-web-throwing-error-in-ch
+        // Endpoint:
+        const headers = { 'Content-Type': 'application/json' }
+        fetch(
+            'http://localhost:8080/redemption_plan/?betrag=' + this.state.betrag + 
+            '&zinssatz=' + this.state.zins + '&anfangstilgung=' + this.state.satz, {headers})
+                .then(response => response.json())
+                .then(data => this.setState({
+                    monthlyRate: data.rate,
+                    repaymentPlan: data.tilgunsplan
+                }));
+        
+        console.log(this.state);
         event.preventDefault();
     }
 

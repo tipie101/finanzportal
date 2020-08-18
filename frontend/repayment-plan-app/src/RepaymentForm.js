@@ -132,9 +132,9 @@ class RepaymentForm extends React.Component {
                         <button onClick={this.handleSubmit}>Berechnen</button>
                     </form>
                 </div>
-                <div class="card-body" style={{ visibility: this.state.monthlyRate == 0 ? 'hidden' : 'visible'}}>
+                <div class="card-body monthly-rate" style={{ visibility: this.state.monthlyRate == 0 ? 'hidden' : 'visible'}}>
                     <p>
-                        Monatliche Rate von {this.state.monthlyRate} &euro;
+                        Der kalkulierte Tilgungsplan ergibt eine monatliche Rate von {this.state.monthlyRate} &euro;
                     </p>
                 </div>
             </div>

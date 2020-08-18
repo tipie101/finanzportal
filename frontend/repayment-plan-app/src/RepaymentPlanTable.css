@@ -1,0 +1,15 @@
+table {
+    border: solid;
+    text-align: center;
+    width: 100%;
+    margin: 1.25rem;
+}
+
+table th {
+    padding: 20px;
+}
+
+table tr {
+    border: solid;
+    border-color: darkgray;
+}

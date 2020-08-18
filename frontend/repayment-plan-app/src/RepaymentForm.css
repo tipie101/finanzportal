@@ -19,4 +19,14 @@ padding: 1rem;
     width: 70%;
 }
 
+.monthly-rate {
+    position: relative;
+} 
 
+.monthly-rate p {
+   margin: 0;
+   position: absolute;              
+   top: 50%;                         
+   transform: translate(0, -50%);
+   text-align: center;
+}

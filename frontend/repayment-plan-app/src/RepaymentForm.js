@@ -104,13 +104,11 @@ class RepaymentForm extends React.Component {
 
 
     calculate() {
-        // Problem occured but is not easily reproducable (fixed by restarting the java service)
-        // CORS header ‘Access-Control-Allow-Origin’ missing
-        // https://stackoverflow.com/questions/45975135/access-control-origin-header-error-using-axios-in-react-web-throwing-error-in-ch
-        // Endpoint:
+        // CORS header ‘Access-Control-Allow-Origin’ missing (fixed by restarting the java service)
         const headers = { 'Content-Type': 'application/json' }
+        // In the long run this shouldn't be hardcoded!
         fetch(
-            'http://localhost:8080/redemption_plan/?betrag=' + this.state.betrag +
+            'http://localhost:8080/repaymentplan/?betrag=' + this.state.betrag +
             '&zinssatz=' + this.state.zins + '&anfangstilgung=' + this.state.satz, { headers })
             .then(response => response.json())
             .then(data => this.setState({

@@ -14,10 +14,10 @@ import java.util.Arrays;
 
 
 @RestController
-public class RedemptionPlanController {
+public class RepaymentPlanController {
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET, path = "/redemption_plan")
+    @RequestMapping(method = RequestMethod.GET, path = "/repaymentplan")
     public JSONObject calculate(
         @PathParam("betrag") String betrag,
         @PathParam("zinssatz") String zinssatz,

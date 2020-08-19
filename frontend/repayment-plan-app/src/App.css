@@ -44,12 +44,16 @@
   margin: 2rem;
   text-align: center;
   color: #eef;
+  border-radius: 0.25rem 0.25rem 0rem 0rem;
 }
 
 .header h2 {
   font-size: 1rem;
+  text-shadow: 1px 0 #5b8fc5, 0 1px #5b8fc5, 1px 0 #5b8fc5, 0 1px #5b8fc5;
+
 }
 
 body {
   overflow-x: hidden;
+  background-color: #ecf0f3;
 }

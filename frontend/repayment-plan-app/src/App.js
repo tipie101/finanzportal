@@ -2,7 +2,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import RepaymentForm from './RepaymentForm';
-import RepaymentPlanTable from './RepaymentPlanTable';
 
 function App() {
   return (
@@ -15,7 +14,7 @@ function App() {
           </h2>
         </div>
         <div class="row">
-          <RepaymentForm/>
+          <RepaymentForm />
         </div>
       </div>
     </div>

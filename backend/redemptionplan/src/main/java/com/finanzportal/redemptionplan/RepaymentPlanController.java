@@ -5,12 +5,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.websocket.server.PathParam;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 @RestController
@@ -23,8 +21,7 @@ public class RepaymentPlanController {
         @PathParam("zinssatz") String zinssatz,
         @PathParam("anfangstilgung") String anfangstilgung) {
 
-        // TODO: Check Params
-
+        // TODO: Check if Params valid
         double betragNumeric = convertGermanNumber(betrag);
         double anfangstilgungNumeric = convertGermanNumber(anfangstilgung);
         double zinsNumeric = convertGermanNumber(zinssatz);
@@ -47,7 +44,7 @@ public class RepaymentPlanController {
                     roundNumber(100.0 * (zinszahlung / Math.min(annuity/12.0, restschuld)), 4)
             });
         }
-/*        monthlyPayments.forEach(monthlyData -> System.out.println(Arrays.toString(monthlyData)));*/
+        // monthlyPayments.forEach(monthlyData -> System.out.println(Arrays.toString(monthlyData)));
 
         JSONObject json = new JSONObject();
         json.put("rate", roundNumber(annuity/12.0, 2));
@@ -56,7 +53,7 @@ public class RepaymentPlanController {
     }
 
     public double convertGermanNumber(String number) {
-        // optional replace '.' for visualization e.g. 1.000,00
+        // optional: replace '.' for visualization e.g. 1.000,00
         return Double.parseDouble(number.replace(".", "").replace(',', '.'));
     }
 

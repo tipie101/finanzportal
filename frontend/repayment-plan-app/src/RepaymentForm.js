@@ -2,6 +2,8 @@ import React from 'react';
 import './RepaymentForm.css';
 import RepaymentPlanTable from './RepaymentPlanTable';
 
+
+// Ab einer gewissen Projekt-Größe in eine Utils-Module verlegen
 function isValidPercentage(value) {
     let val = value.replace(',', '.');
     if (isNaN(val)) {
@@ -20,6 +22,8 @@ function isValidFund(value) {
     let val = value.replace(',', '.');
     return val.match(/^\$?\d*\.?\d{0,2}$/);
 }
+// 
+
 
 class RepaymentForm extends React.Component {
     constructor(props) {
@@ -33,8 +37,8 @@ class RepaymentForm extends React.Component {
             satzClass: '',
             monthlyRate: 0,
             repaymentPlan: [],
-            // after first calculation
-            // calculation updates should happen after changing values
+            // Nach der ersten Berechnung soll
+            // das Ergebnis sich automatisch updaten, sobald Parameter verändert werden
             calculatedBefore: false,
             typingTimeout: 0,
         };
@@ -122,7 +126,8 @@ class RepaymentForm extends React.Component {
             return;
         }
 
-        if (previousState.betrag !== this.state.betrag || previousState.zins !== this.state.zins || previousState.satz !== this.state.satz) {
+        if (previousState.betrag !== this.state.betrag || previousState.zins !== this.state.zins 
+            || previousState.satz !== this.state.satz) {
             if (this.state.calculatedBefore) {
                 this.calculate();
             }

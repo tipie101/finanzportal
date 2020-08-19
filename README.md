@@ -1,31 +1,30 @@
 ## Projekt-Strukur:
 
-1.
-Frontend - ReactJS Projekt 
+1. Frontend - ReactJS Projekt 
 startet auf localhost:3000 mit 'npm start' in frontend/repayment-plan-app
 
-2.
-Backend Spring Boot (Java 11) 
+2. Backend Spring Boot (Java 11) 
 Einstiegspunkt 'backend/redemptionplan/src/main/java/com.finanzportal.redemtionplan/RepaymentPlanApplication.java'
 startet auf localhost:8080
 
-Wichtig: 1. Muss zuerst startet, da ansonsten ein 'CORS request did not succeed'-Fehler auftritt 
+Wichtig: npm muss zuerst startet, da ansonsten ein 'CORS request did not succeed'-Fehler auftritt 
 
 # Dieser Prototyp ist ausbaufähig durch folgende Erweiterungen:
 
-- Die Anzeige der Rückzahlung tabellarisch dargestellt, wobei jede Zeile einen Monat repräsentiert -> visuell besser aufgliedern nach Monaten und Jahren
+- Die Anzeige der Rückzahlung ist tabellarisch dargestellt, wobei jede Zeile einen Monat repräsentiert -> visuell besser aufgliedern nach Monaten und Jahren
 
 - Das Design ist basal und nicht sehr ansprechend -> Ans Corparate Design der Sparkasse anpassen
 
 - Die Zinsbindung kann noch nicht ausgewählt werden -> Slider einführen, der den max. Zeitraum angibt und gegebenenfalls den Rückzahlungsplan entsprechend kürzen
 
 - Die Eingabe im Frontend ist auf gültige Parameter limitiert ->
-Auch backend-seitig Checks einbauen!
+Unbedingt auch backend-seitig Checks einbauen!
+
+- Unwichtigen Code entfernen (entstanden bei initialisierung des React-Projekts)
 
 
 ## Aufgabenbeschreibung:
 
-# finanzportal
 task for code evaluation
 
 Userstory:

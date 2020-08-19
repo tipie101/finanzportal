@@ -28,6 +28,9 @@ class RepaymentForm extends React.Component {
             betrag: '',
             zins: '',
             satz: '',
+            betragClass: '',
+            zinsClass: '',
+            satzClass: '',
             monthlyRate: 0,
             repaymentPlan: [],
             // after first calculation
@@ -45,7 +48,12 @@ class RepaymentForm extends React.Component {
     setZinssatz(event) {
         if (isValidPercentage(event.target.value)) {
             this.setState({
-                zins: event.target.value
+                zins: event.target.value,
+                zinsClass: '',
+            });
+        } else {
+            this.setState({
+                zinsClass: 'invalid-char',
             });
         }
     }
@@ -53,37 +61,50 @@ class RepaymentForm extends React.Component {
     setBetrag(event) {
         if (isValidFund(event.target.value)) {
             this.setState({
-                betrag: event.target.value
+                betrag: event.target.value, 
+                betragClass: '',
+            });
+        } else {
+            this.setState({
+                betragClass: 'invalid-char',
             });
         }
     }
 
     setTilgungssatz(event) {
-        if (!isValidPercentage(event.target.value)) {
-            return;
+        if (isValidPercentage(event.target.value)) {
+            this.setState({
+                satz: event.target.value,
+                satzClass: '',
+            });
+        } else {
+            this.setState({
+                satzClass: 'invalid-char',
+            });
         }
-        this.setState({
-            satz: event.target.value
-        });
     }
 
     handleSubmit(event) {
+        
         if (this.state.betrag === '' || this.state.zins === '' || this.state.satz === '') {
+            window.alert('Bitte tragen Sie alle Werte ein');
+            event.preventDefault();
             return;
-        }
-
+        } 
+        
         if (!this.calculatedBefore) {
             this.setState({
                 calculatedBefore: true
             });
         }
-
+        
         this.calculate();
         event.preventDefault();
     }
 
 
     calculate() {
+        // Problem occured but is not easily reproducable (fixed by restarting the java service)
         // CORS header ‘Access-Control-Allow-Origin’ missing
         // https://stackoverflow.com/questions/45975135/access-control-origin-header-error-using-axios-in-react-web-throwing-error-in-ch
         // Endpoint:
@@ -118,20 +139,20 @@ class RepaymentForm extends React.Component {
                         <form>
                             <div class="form-param">
                                 <p>Darlehensbetrag</p>
-                                <input value={this.state.betrag} onChange={this.setBetrag} type="text" placeholder="200,00" />
+                                <input value={this.state.betrag} class={this.state.betragClass} onChange={this.setBetrag} type="text" placeholder="200,00" required/>
                             </div>
                             <div class="form-param">
                                 <p>Sollzins % p.a.</p>
-                                <input value={this.state.zins} onChange={this.setZinssatz} type="text" placeholder="2,0" />
+                                <input value={this.state.zins} class={this.state.zinsClass} onChange={this.setZinssatz} type="text" placeholder="2,0" required/>
                             </div>
                             <div class="form-param">
                                 <p>Tilgungssatz (% erstes Jahr)</p>
-                                <input value={this.state.satz} onChange={this.setTilgungssatz} type="text" placeholder="5,0" />
+                                <input value={this.state.satz} class={this.state.satzClass} onChange={this.setTilgungssatz} type="text" placeholder="5,0" required/>
                             </div>
                             <button onClick={this.handleSubmit}>Berechnen</button>
                         </form>
                     </div>
-                    <div class="card-body monthly-rate" style={{ visibility: this.state.monthlyRate == 0 ? 'hidden' : 'visible' }}>
+                    <div class="card-body monthly-rate" style={{ visibility: this.state.monthlyRate === 0 ? 'hidden' : 'visible' }}>
                         <p>
                             Monatsrate von {this.state.monthlyRate} &euro;
                     </p>

@@ -30,3 +30,11 @@ padding: 1rem;
    transform: translate(0, -50%);
    text-align: center;
 }
+
+input:invalid {
+    border: 5px solid #ffdddd;
+}
+
+.invalid-char {
+    border: 5px solid #ffdddd;
+}

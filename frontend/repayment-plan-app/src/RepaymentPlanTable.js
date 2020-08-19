@@ -9,7 +9,6 @@ class RepaymentPlanTable extends Component {
     }
 
     getTableBody() {
-        console.log(this.props.data);
         return (
             <tbody>
                 {this.props.data.map(row => (
@@ -22,7 +21,6 @@ class RepaymentPlanTable extends Component {
     }
 
     getColumnNames() {
-        console.log(this.props.columnNames);
         return (
             <tr>
                 {this.props.columnNames.map(columnName => (

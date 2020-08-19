@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.websocket.server.PathParam;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
+
 
 @RestController
 public class RedemptionPlanController {
@@ -22,7 +21,6 @@ public class RedemptionPlanController {
     public JSONObject calculate(
         @PathParam("betrag") String betrag,
         @PathParam("zinssatz") String zinssatz,
-        // TODO: What is 'anfangstilgung'? maybe 'tilgungssatz'?
         @PathParam("anfangstilgung") String anfangstilgung) {
 
         // TODO: Check Params
@@ -39,12 +37,6 @@ public class RedemptionPlanController {
         // calculate 'Rate' ~ that is annuity/12.0 rounded
         while(restschuld > annuity/12.0) {
             double zinszahlung = calculateZinszahlung(restschuld, zinsNumeric);
-            // TODO: Use this logic in monthlyPayment-List?
-/*            System.out.println("Zinsanteil");
-            System.out.println(zinszahlung);
-            System.out.println("("+ zinszahlung / Math.min(annuity/12.0, restschuld) + "%)");
-            System.out.println("Tilgungsanteil");
-            System.out.println(Math.min(annuity/12.0, restschuld) - zinszahlung);*/
             restschuld = calculateRestschuld(restschuld, annuity, zinsNumeric);
             month++;
             monthlyPayments.add(new double[]{
@@ -55,7 +47,7 @@ public class RedemptionPlanController {
                     roundNumber(100.0 * (zinszahlung / Math.min(annuity/12.0, restschuld)), 4)
             });
         }
-        monthlyPayments.forEach(monthlyData -> System.out.println(Arrays.toString(monthlyData)));
+/*        monthlyPayments.forEach(monthlyData -> System.out.println(Arrays.toString(monthlyData)));*/
 
         JSONObject json = new JSONObject();
         json.put("rate", roundNumber(annuity/12.0, 2));
